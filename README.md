@@ -1,4 +1,4 @@
-# React ES6 Webpack Boilerplate
+# react-ja-webpack
 
 Boilerplate for kick starting a project with the following technologies:
 * [React](https://github.com/facebook/react)
@@ -7,15 +7,12 @@ Boilerplate for kick starting a project with the following technologies:
 * [Webpack Dev Server](http://webpack.github.io/docs/webpack-dev-server.html)
 * [React Transform](https://github.com/gaearon/react-transform-hmr) for hot reloading React components in real time.
 
-The various webpack options used have been explained in detailed as comments in the config file. Should help with understanding the nitty-gritty :)
-
 
 ### Usage
 
 ```
 npm install
 npm start
-Open http://localhost:5000
 ```
 
 ### Linting
@@ -29,6 +26,6 @@ npm run lint
 
 ### Browserstack
 
-This project can be tested on the browserstack platform via xxx. A shhotout to the folks at <Icon> browserstack for letting me get free access to there awesome service. Thank you!
+This project can be tested on the Browserstack platform via `npm run test`. A big shoutout to the folks there for letting me get free access to there awesome service. Thank you Browserstack!
 
 
