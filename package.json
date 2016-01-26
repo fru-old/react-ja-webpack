@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node ./tools/dev-webpack-server.js",
-    "build": "./node_modules/.bin/webpack --config ./tools/prod-webpack-conf.js",
+    "build": "node -e require('./tools/webpack.conf.js')",
     "lint": "./node_modules/.bin/eslint . || exit 0",
     "test": "node ./node_modules/karma/bin/karma start ./tools/test-karma-conf.js --browsers PhantomJS"
   },
