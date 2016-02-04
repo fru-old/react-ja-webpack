@@ -1,7 +1,7 @@
 /* eslint-disable no-var, strict */
 var webpack = require('webpack');
 var WebpackDevServer = require('webpack-dev-server');
-var config = require('./dev-webpack-conf');
+var config = require('./webpack.conf.js')('dev');
 
 new WebpackDevServer(webpack(config), {
 	publicPath: config.output.publicPath,
