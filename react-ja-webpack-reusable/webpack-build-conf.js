@@ -1,64 +1,7 @@
-
-var options = {
-	libraryPath: '../lib',
-	testPath: '../test',
-	languages: {
-		'en': null,
-		'de': require('../lang/de.json')
-	},
-	webpack: function(stage) {
-		return {
-			entry: {
-				bundle: './lib/index'
-			},
-			resolve: {
-				extensions: ['', '.js']
-			},
-			module: {
-				loaders: [{
-					test: /\.s?css$/,
-					loaders: ['style-loader', 'css-loader', 'postcss-loader'],
-				},{
-					test: /\.html$/,
-					loaders: ['react-templates-loader']
-				},{
-					test: /\.json$/,
-					loaders: ['json']
-				}]
-			},
-			postcss: function plugins(bundler) {
-				return [
-					require('postcss-import')({ addDependencyTo: bundler }),
-					require('precss')()
-				];
-			}
-		};
-	},
-	babel: function() {
-		return {
-			presets: ['es2015', 'stage-0']
-		};
-	},
-	server: function init(app){
-		
-		app.get('/hello', function( req, res ) {
-			res.send('Hello World!');
-		});
-	},
-	port: 3000,
-	reloadPort: 5000
-};
-/*
-module.exports = function (stage) {
-	
-	return require('react-ja-webpack-reusable/webpack-build-conf.js')(stage, options)
-	
-};*/
-
 // TODO Test path changes in options
 // TODO Make functions overrideable
 
-module.exports = function(stage){
+module.exports = function(stage, options){
 	
 	var webpack = require('webpack');
 	var path = require('path');

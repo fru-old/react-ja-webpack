@@ -3,13 +3,13 @@ module.exports = function(config) {
 
 	files: [
 	  '../node_modules/phantomjs-polyfill/bind-polyfill.js',
-	  '../test/start-all-tests.js'
+	  '../test/karma.js'
 	],
 
 	frameworks: ['mocha'],
 
 	preprocessors: {
-	  '../test/start-all-tests.js': ['webpack']
+	  '../test/karma.js': ['webpack']
 	},
 
 	reporters: ['spec', 'coverage'],
