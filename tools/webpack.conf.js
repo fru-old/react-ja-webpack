@@ -44,16 +44,15 @@ var options = {
 	reloadPort: 5000
 };
 
-// TODO Test path changes in options
+// TODO Dist path changes in options
 // TODO Make functions overrideable
 // TODO Make more readable
-// TODO Only represent stage differences. Not project diferences!
 
 module.exports = function(stage){
 	
 	var webpack = require('webpack');
 	var path = require('path');
-	var I18nPlugin = require("i18n-webpack-plugin");
+	var I18nPlugin = require('i18n-webpack-plugin');
 	var BrowserSyncPlugin = require('browser-sync-webpack-plugin');
 
 	function addBabelLoader(stage, options, webpackConfig, babelConfig, currentLanguage) {
@@ -68,15 +67,7 @@ module.exports = function(stage){
 					}]
 				}]
 			];			
-		}
-		
-		webpackConfig.module.loaders.push({
-			test: /\.jsx?$/,
-			loaders: ['babel?'+JSON.stringify(babelConfig)],
-			include: [path.join(__dirname, options.libraryPath), path.join(__dirname, options.testPath)]
-		});
-		
-		if(stage === 'test'){
+		}else if(stage === 'test'){
 			webpackConfig.module.postLoaders = webpackConfig.module.postLoaders || [];
 			webpackConfig.module.postLoaders.push({
 				test: /\.jsx?/,
@@ -84,6 +75,12 @@ module.exports = function(stage){
 				loader: 'istanbul-instrumenter'
 			});
 		}
+		
+		webpackConfig.module.loaders.push({
+			test: /\.jsx?$/,
+			loaders: ['babel?'+JSON.stringify(babelConfig)],
+			include: [path.join(__dirname, options.libraryPath), path.join(__dirname, options.testPath)]
+		});
 	}
 
 	function addWebpackPlugins(stage, options, webpackConfig, babelConfig, currentLanguage) {
@@ -220,7 +217,7 @@ module.exports = function(stage){
 				errorDetails: false,
 				chunkOrigins: false,
 				exclude: [ 'node_modules', 'bower_components', 'jam', 'components' ] 
-			}) + "\n");
+			}) + '\n');
 	
 			process.exit(0);
 		});
