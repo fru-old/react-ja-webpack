@@ -28,7 +28,6 @@
   "homepage": "https://github.com/vasanthk/react-es6-webpack-boilerplate",
   "dependencies": {},
   "devDependencies": {
-    "babel-runtime": "^6.3.19",
     "babel-core": "^6.3.21",
     "babel-eslint": "^5.0.0-beta6",
     "babel-loader": "^6.2.0",
@@ -37,8 +36,11 @@
     "babel-preset-es2015": "^6.3.13",
     "babel-preset-react": "^6.3.13",
     "babel-preset-stage-0": "^6.3.13",
+    "babel-runtime": "^6.3.19",
     "browser-sync": "^2.11.1",
     "browser-sync-webpack-plugin": "^1.0.1",
+    "chai": "^2.2.0",
+    "css-loader": "^0.23.1",
     "eslint": "^0.21.2",
     "eslint-plugin-react": "^2.3.0",
     "express": "^4.13.4",
@@ -54,10 +56,6 @@
     "karma-phantomjs-launcher": "^0.1.4",
     "karma-spec-reporter": "0.0.18",
     "karma-webpack": "^1.5.0",
-    "webpack": "^1.8.4",
-    "webpack-dev-server": "^1.8.0",
-    "chai": "^2.2.0",
-    "css-loader": "^0.23.1",
     "mocha": "^2.2.1",
     "mocha-loader": "^0.7.1",
     "phantomcss": "^0.11.1",
@@ -69,11 +67,12 @@
     "proxyquire": "^1.7.4",
     "react": "^0.14.5",
     "react-dom": "^0.14.5",
-    "react-ja-webpack-reusable": "file:react-ja-webpack-reusable",
     "react-proxy-loader": "^0.3.4",
     "react-templates": "^0.3.0",
     "react-templates-loader": "^0.3.1",
     "react-transform-hmr": "^1.0.1",
-    "style-loader": "^0.13.0"
+    "style-loader": "^0.13.0",
+    "webpack": "^1.8.4",
+    "webpack-dev-server": "^1.8.0"
   }
 }

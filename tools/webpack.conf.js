@@ -36,27 +36,18 @@ var options = {
 	},
 	babel: function() {
 		return {
-			presets: ['es2015', 'stage-0']
+			presets: ['react', 'es2015', 'stage-0']
 		};
 	},
-	server: function init(app){
-		
-		app.get('/hello', function( req, res ) {
-			res.send('Hello World!');
-		});
-	},
+	server: require('./server.conf.js'),
 	port: 3000,
 	reloadPort: 5000
 };
-/*
-module.exports = function (stage) {
-	
-	return require('react-ja-webpack-reusable/webpack-build-conf.js')(stage, options)
-	
-};*/
 
 // TODO Test path changes in options
 // TODO Make functions overrideable
+// TODO Make more readable
+// TODO Only represent stage differences. Not project diferences!
 
 module.exports = function(stage){
 	
@@ -67,7 +58,6 @@ module.exports = function(stage){
 
 	function addBabelLoader(stage, options, webpackConfig, babelConfig, currentLanguage) {
 		
-		babelConfig.presets.push('react');
 		if(stage === 'dev'){
 			babelConfig.plugins = [
 				'transform-runtime', [ 'react-transform', {
