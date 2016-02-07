@@ -26,7 +26,10 @@
     "url": "https://github.com/vasanthk/react-es6-webpack-boilerplate/issues"
   },
   "homepage": "https://github.com/vasanthk/react-es6-webpack-boilerplate",
-  "dependencies": {},
+  "dependencies": {
+    "history": "^2.0.0",
+    "react-router": "^1.0.3"
+  },
   "devDependencies": {
     "babel-core": "^6.3.21",
     "babel-eslint": "^5.0.0-beta6",
