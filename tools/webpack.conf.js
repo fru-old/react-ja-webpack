@@ -26,7 +26,7 @@ function options( babelPlugins, webpackPlugins, postLoaders, reloadEntries, lang
 		server: require('./server.conf.js'),
 		webpack: {
 			entry: {
-				bundle: ['./lib/index'].concat(reloadEntries)
+				bundle: reloadEntries.concat(['./lib/index'])
 			},
 			resolve: {
 				extensions: ['', '.js']
@@ -86,7 +86,8 @@ function buildConfig(target, language) {
 		];
 		var reloadEntries = [
 			'webpack-dev-server/client?http://localhost:5000',
-			'webpack/hot/dev-server'
+			'webpack/hot/dev-server',
+			'./node_modules/phantomjs-polyfill/bind-polyfill.js'
 		];
 		
 		return options(babelPlugins, webpackPlugins, [], reloadEntries, language); 
