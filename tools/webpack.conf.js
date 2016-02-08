@@ -19,14 +19,19 @@ function options( babelPlugins, webpackPlugins, postLoaders, reloadEntries, lang
 	
 	var babel = {
 		presets: ['react', 'es2015', 'stage-0'],
-		plugins: babelPlugins
+		plugins: ['transform-es3-property-literals', 'transform-es3-member-expression-literals'].concat(babelPlugins)
 	};
 	
 	return {
 		server: require('./server.conf.js'),
 		webpack: {
 			entry: {
-				bundle: reloadEntries.concat(['./lib/index'])
+				bundle: [
+					'es5-shim', 
+					'es5-shim/es5-sham',
+					'console-polyfill',
+					'./lib/index'
+				].concat(reloadEntries)
 			},
 			resolve: {
 				extensions: ['', '.js']
@@ -41,7 +46,10 @@ function options( babelPlugins, webpackPlugins, postLoaders, reloadEntries, lang
 				},{
 					test: /\.json$/,
 					loaders: ['json']
-				}, {
+				},{
+					test: /\.jsx?$/,
+					loaders: ['es3ify']
+				},{
 					test: /\.jsx?$/,
 					loaders: ['babel?'+JSON.stringify(babel)],
 					include: [path.join(__dirname, '../lib'), path.join(__dirname, '../test')]

@@ -20,14 +20,18 @@
     "babel",
     "webpack"
   ],
-  "author": "Vasanth Krishnamoorthy (http://www.vasanthk.com)",
+  "author": "Florian Rüberg",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/vasanthk/react-es6-webpack-boilerplate/issues"
   },
   "homepage": "https://github.com/vasanthk/react-es6-webpack-boilerplate",
   "dependencies": {
+    "console-polyfill": "^0.2.2",
+    "es5-shim": "^4.5.2",
     "history": "^2.0.0",
+	"react": "0.14.5",
+    "react-dom": "0.14.5",
     "react-router": "^1.0.3"
   },
   "devDependencies": {
@@ -35,6 +39,8 @@
     "babel-eslint": "^5.0.0-beta6",
     "babel-loader": "^6.2.0",
     "babel-plugin-react-transform": "^2.0.0-beta1",
+    "babel-plugin-transform-es3-member-expression-literals": "^6.5.0",
+    "babel-plugin-transform-es3-property-literals": "^6.5.0",
     "babel-plugin-transform-runtime": "^6.3.13",
     "babel-preset-es2015": "^6.3.13",
     "babel-preset-react": "^6.3.13",
@@ -44,6 +50,7 @@
     "browser-sync-webpack-plugin": "^1.0.1",
     "chai": "^2.2.0",
     "css-loader": "^0.23.1",
+    "es3ify-loader": "^0.1.0",
     "eslint": "^0.21.2",
     "eslint-plugin-react": "^2.3.0",
     "express": "^4.13.4",
@@ -68,8 +75,6 @@
     "postcss-loader": "^0.8.0",
     "precss": "^1.4.0",
     "proxyquire": "^1.7.4",
-    "react": "^0.14.5",
-    "react-dom": "^0.14.5",
     "react-proxy-loader": "^0.3.4",
     "react-templates": "^0.3.0",
     "react-templates-loader": "^0.3.1",
