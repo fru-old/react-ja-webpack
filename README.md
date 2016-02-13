@@ -7,6 +7,8 @@ Boilerplate for kick starting a project with the following technologies:
 * [Webpack Dev Server](http://webpack.github.io/docs/webpack-dev-server.html)
 * [React Transform](https://github.com/gaearon/react-transform-hmr) for hot reloading React components in real time.
 
+[Index Html](https://rawgit.com/fru/react-ja-webpack/master/index.html)
+
 
 ### Usage
 

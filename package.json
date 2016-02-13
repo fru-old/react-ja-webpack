@@ -33,6 +33,7 @@
     "history": "^2.0.0",
     "react": "0.14.5",
     "react-dom": "0.14.5",
+    "react-infinite": "^0.8.0",
     "react-router": "^1.0.3",
     "react-transmit": "^3.1.7",
     "responsive-fixed-data-table": "^1.5.0"
