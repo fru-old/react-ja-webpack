@@ -1,8 +1,9 @@
-
 var I18nPlugin = require('i18n-webpack-plugin');
 var webpack = require('webpack');
 var path = require('path');
 var BrowserSyncPlugin = require('browser-sync-webpack-plugin');
+var proxyquire = require('proxyquire');
+var Express = require('express');
 
 /**
  * Register languages and there translation json here
@@ -15,7 +16,7 @@ var languages = {
 /**
  * Builds the webpack options. 
  */
-function options( babelPlugins, webpackPlugins, postLoaders, reloadEntries, language ) {
+function options(babelPlugins, webpackPlugins, postLoaders, reloadEntries, language, devtool, output){
 	
 	var babel = {
 		presets: ['react', 'es2015', 'stage-0'],
@@ -62,7 +63,9 @@ function options( babelPlugins, webpackPlugins, postLoaders, reloadEntries, lang
 					require('precss')()
 				];
 			},
-			plugins: [new I18nPlugin(languages[language])].concat(webpackPlugins)
+			plugins: [new I18nPlugin(languages[language])].concat(webpackPlugins),
+			devtool: devtool,
+			output: output
 		}
 	};
 }
@@ -70,11 +73,13 @@ function options( babelPlugins, webpackPlugins, postLoaders, reloadEntries, lang
 /**
  * Extends the webpack options depending on the target. 
  */
-function buildConfig(target, language) {
+function buildConfig(target, language, devtool, output){
+		
+	var babelPlugins = [], webpackPlugins = [], postLoaders = [], reloadEntries = [];
 		
 	if(target === 'dev'){
 		
-		var babelPlugins = [
+		babelPlugins = [
 			'transform-runtime', [ 'react-transform', {
 				transforms: [{
 					transform : 'react-transform-hmr',
@@ -83,7 +88,7 @@ function buildConfig(target, language) {
 				}]
 			}]
 		];
-		var webpackPlugins = [
+		webpackPlugins = [
 			new webpack.HotModuleReplacementPlugin(),
 			new webpack.NoErrorsPlugin(),
 			new BrowserSyncPlugin({
@@ -92,27 +97,23 @@ function buildConfig(target, language) {
 				proxy: 'http://localhost:5000/'
 			}, { reload: false })
 		];
-		var reloadEntries = [
+		reloadEntries = [
 			'webpack-dev-server/client?http://localhost:5000',
 			'webpack/hot/dev-server',
 			'./node_modules/phantomjs-polyfill/bind-polyfill.js'
 		];
 		
-		return options(babelPlugins, webpackPlugins, [], reloadEntries, language); 
-		
 	}else if(target === 'test'){
 		
-		var postLoaders = [{
+		postLoaders = [{
 			test: /\.jsx?/,
 			exclude: /(test|node_modules|bower_components)/,
 			loader: 'istanbul-instrumenter'
 		}];
 		
-		return options([], [], postLoaders, [], language); 
-		
 	}else if(target === 'prod'){
 		
-		var webpackPlugins = [
+		webpackPlugins = [
 			new webpack.optimize.OccurenceOrderPlugin(),
 			new webpack.optimize.UglifyJsPlugin({
 				compress: { warnings: false }
@@ -123,9 +124,8 @@ function buildConfig(target, language) {
 				}
 			})
 		];
-		
-		return options([], webpackPlugins, [], [], language);
 	}
+	return options(babelPlugins, webpackPlugins, postLoaders, reloadEntries, language, devtool, output); 
 }
 
 /**
@@ -135,23 +135,16 @@ module.exports = function(target){
 	
 	if(target === 'dev'){
 		
-		var config = buildConfig(target, options);
-
-		config.webpack.output = {
+		var config = buildConfig(target, options, 'eval-source-map', {
 			path: __dirname,
 			filename: '[name].js',
 			publicPath: '/dist/'
-		};
-		config.webpack.devtool = 'eval-source-map';
+		});
 
 		// Mock express and insert dev server
 		
-		var proxyquire =  require('proxyquire');
-		var Express =  require('express');
-		var app = new Express();
 		var WebpackDevServer = proxyquire('webpack-dev-server', { 'express': function(){
-			config.server(app);
-			return app;
+			return config.server(new Express());
 		}});
 
 		var server = new WebpackDevServer(webpack(config.webpack), {
@@ -160,51 +153,32 @@ module.exports = function(target){
 			historyApiFallback: true
 		});
 		
-		server.listen(5000, 'localhost', function (err) {
-			if (err) {
-			  console.log(err);
-			}
-			console.log('Listening at localhost:3000');
+		server.listen(5000, 'localhost', function (error) {
+			console.log(error || 'Listening at localhost:3000');
 		});
 
 	}else if(target === 'test'){
 		
-		var config = buildConfig(target, options);
-		config.webpack.devtool = 'eval-source-map';
-		
-		return config.webpack;
+		return buildConfig(target, options, 'eval-source-map').webpack;
 		
 	}else if(target === 'prod'){
 		
-		var languageWebpackConfig = Object.keys(languages).map(function(language) {
+		var languageWebpackConfig = Object.keys(languages).map(function(language){
 			
 			var extension = (language === 'en' ? '' : ('.' + language)) + '.js';
-			var config = buildConfig(target, language);
 			
-			config.webpack.devtool = 'source-map';
-			
-			config.webpack.output = {
+			return buildConfig(target, language, 'source-map', {
 				path: path.join(__dirname, '../dist'),
 				filename: '[name]' + extension,
 				publicPath: '/'
-			};
-			return config.webpack;
+			}).webpack;
 		});
 		
-		webpack(languageWebpackConfig).run(function(err, stats) {
+		webpack(languageWebpackConfig).run(function(err, stats){
 			process.stdout.write(stats.toString({ 
-				context: undefined,
-				colors: { level: 1, hasBasic: true, has256: false, has16m: false },
-				cached: false,
-				cachedAssets: false,
-				modules: true,
-				chunks: false,
-				reasons: false,
-				errorDetails: false,
-				chunkOrigins: false,
-				exclude: [ 'node_modules', 'bower_components', 'jam', 'components' ] 
-			}) + '\n');
-	
+				colors: { level: 1, hasBasic: true },
+				chunks: false
+			}));
 			process.exit(0);
 		});
 	}

@@ -4,4 +4,5 @@ module.exports = function init(app){
 		res.send('Hello World!');
 	});
 	
+	return app;
 };

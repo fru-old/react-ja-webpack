@@ -1,14 +1,13 @@
-var phantomcss = require( 'phantomcss' );
-//var casper = require('casper').create();
+var phantomcss = require('phantomcss');
 
-module.exports = function (callback) {
+module.exports = function(callback){
 	
-	casper.test.begin( 'PhantomCss Test Harness', function ( test ) {
+	casper.test.begin('PhantomCss Test Harness', function(){
 
-		phantomcss.init( {
+		phantomcss.init({
 			libraryRoot: './node_modules/phantomcss',
 			cleanupComparisonImages: true
-		} );
+		});
 		
 		casper.start();
 		phantomcss.turnOffAnimations();
@@ -16,29 +15,29 @@ module.exports = function (callback) {
 		// List of tests
 		callback();
 		
-		casper.on( 'error', function ( err ) {
-			this.echo( "PhantomJs error: " + err );
-		} );
+		casper.on('error', function(error){
+			this.echo('PhantomJs error: ' + error);
+		});
 		
-		casper.on( 'page.error', function ( err ) {
-			this.echo( "Error: " + err );
-		} );
+		casper.on('page.error', function(error){
+			this.echo('Error: ' + error);
+		});
 
-		casper.on( 'resource.error', function ( err ) {
-			casper.log( 'Load error: ' + err, 'warning' );
-		} );
+		casper.on('resource.error', function(error){
+			//this.echo('Load error: ' + JSON.stringify(error), 'warning');
+		});
 		
-		casper.on( 'remote.message', function ( msg ) {
-			this.echo( msg );
-		} );
+		casper.on('remote.message', function(message){
+			this.echo(message);
+		});
 		
-		casper.then( function now_check_the_screenshots() {
+		casper.then(function(){
 			phantomcss.compareAll();
-		} );
+		});
 		
-		casper.run( function () {
+		casper.run(function (){
 			casper.test.done();
 			this.exit();
-		} );
+		});
 	});
 };
